@@ -1,18 +1,36 @@
 {
   "env": {
     "browser": true,
-    "es2021": true,
-    "node": true
+    "es2021": true
   },
-  "extends": ["react-app", "react-app/jest", "prettier"],
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
+  "extends": [
+    "plugin:react/recommended",
+    "standard-with-typescript",
+    "prettier"
+  ],
   "overrides": [],
+  "parser": "@typescript-eslint/parser",
   "parserOptions": {
+    "project": "./tsconfig.json",
     "ecmaVersion": "latest",
-    "sourceType": "module",
-    "parser": "@typescript-eslint/parser"
+    "sourceType": "module"
   },
+  "ignorePatterns": [
+    "*.d.ts",
+    "reportWebVitals.ts",
+    "__json-server__/**/*",
+    "commitlint.config.js"
+  ],
+  "plugins": ["react"],
   "rules": {
+    "@typescript-eslint/explicit-function-return-type": "off",
     "import/no-named-as-default-member": "off",
-    "object-shorthand": "off"
+    "object-shorthand": "off",
+    "react/react-in-jsx-scope": "off"
   }
 }
