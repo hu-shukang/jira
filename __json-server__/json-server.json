@@ -1,0 +1,8 @@
+{
+  "port": 8080,
+  "middlewares": [
+    "__json-server__/middlewares/post.middleware.js",
+    "__json-server__/middlewares/put.middleware.js"
+  ],
+  "watch": true
+}
