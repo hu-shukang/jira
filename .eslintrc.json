@@ -31,6 +31,6 @@
     "@typescript-eslint/explicit-function-return-type": "off",
     "import/no-named-as-default-member": "off",
     "object-shorthand": "off",
-    "react/react-in-jsx-scope": "off"
+    "@typescript-eslint/no-confusing-void-expression": "off"
   }
 }
