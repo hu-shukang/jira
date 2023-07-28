@@ -23,7 +23,8 @@
   "ignorePatterns": [
     "*.d.ts",
     "reportWebVitals.ts",
-    "__json-server__/**/*",
+    "src/.mocks/**/*",
+    "public/mockServiceWorker.js",
     "commitlint.config.js"
   ],
   "plugins": ["react"],
