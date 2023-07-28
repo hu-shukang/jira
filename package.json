@@ -60,6 +60,7 @@
     "json-server": "^0.17.3",
     "lint-staged": ">=10",
     "msw": "^1.2.3",
+    "node-match-path": "^0.6.3",
     "prettier": "3.0.0",
     "typescript": "*"
   },
