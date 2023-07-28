@@ -6,9 +6,9 @@ export const useMount = (callback: () => void) => {
   }, []);
 };
 
-export function useDebounce(value: any, delay = 1000) {
+export function useDebounce<T>(value: T, delay = 1000) {
   // debounce の対象 state と setter
-  const [debouncedValue, setDebouncedValue] = useState(value);
+  const [debouncedValue, setDebouncedValue] = useState<T>(value);
 
   useEffect(() => {
     // delay 後 debounce の対象 state をアップデート
