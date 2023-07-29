@@ -1,7 +1,7 @@
 import { rest } from 'msw';
 import * as accountDB from '../data/account';
 import { bootstrap } from '../bootstrap';
-import { ServerError, withErrorHandler } from '../util';
+import { ServerError, withErrorHandler, randomDelay } from '../util';
 
 const getToken = (req) =>
   req.headers.get('Authorization')?.replace('Bearer ', '');
@@ -28,14 +28,17 @@ export const userHandlers = [
   rest.get(`/me`, async (req, res, ctx) => {
     const user = await getUser(req);
     const token = getToken(req);
-    return res(ctx.json({ user: { ...user, token } }));
+    return res(
+      ctx.delay(randomDelay()),
+      ctx.json({ user: { ...user, token } })
+    );
   }),
   rest.post(
     `/login`,
     withErrorHandler(async (req, res, ctx) => {
       const { username, password } = await req.json();
       const user = await accountDB.authenticate({ name: username, password });
-      return res(ctx.json({ user }));
+      return res(ctx.delay(randomDelay()), ctx.json({ user }));
     })
   ),
 
@@ -52,10 +55,11 @@ export const userHandlers = [
       } catch (error) {
         return res(
           ctx.status(error.status),
+          ctx.delay(randomDelay()),
           ctx.json({ message: error.message })
         );
       }
-      return res(ctx.json({ user }));
+      return res(ctx.delay(randomDelay()), ctx.json({ user }));
     })
   ),
 ];

@@ -1,19 +1,8 @@
+import { useAuth } from 'context/auth.context';
 import React from 'react';
-import { type LoginForm } from 'types/user.type';
-import { Const } from 'utils';
 
 export const LoginScreen = () => {
-  const login = (form: LoginForm) => {
-    fetch(`${Const.API_BASE_URL}/login`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(form),
-    })
-      .then((resp) => {})
-      .catch((e) => console.log(e));
-  };
+  const { login, user } = useAuth();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -27,6 +16,11 @@ export const LoginScreen = () => {
   return (
     <div>
       <form onSubmit={handleSubmit}>
+        {user !== undefined ? (
+          <div>登录成功，用户名：{user?.name}</div>
+        ) : (
+          <div></div>
+        )}
         <div>
           <label htmlFor="username">用户名</label>
           <input type="text" id="username" />

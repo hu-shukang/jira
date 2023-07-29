@@ -1,6 +1,6 @@
 import { rest } from 'msw';
 import { kanbanDB, taskDB } from '../data/rest';
-import { withErrorHandler } from '../util';
+import { withErrorHandler, randomDelay } from '../util';
 
 export const reorderHandlers = [
   rest.post(
@@ -8,7 +8,7 @@ export const reorderHandlers = [
     withErrorHandler(async (req, res, ctx) => {
       const { fromId, referenceId, type } = await req.json();
       kanbanDB.reorder({ fromId, referenceId, type });
-      return res(ctx.json({}));
+      return res(ctx.delay(randomDelay()), ctx.json({}));
     })
   ),
   rest.post(
@@ -25,7 +25,7 @@ export const reorderHandlers = [
         await taskDB.update(fromTaskId, { kanbanId: toKanbanId });
       }
       taskDB.reorder({ type, fromId: fromTaskId, referenceId });
-      return res(ctx.json({}));
+      return res(ctx.delay(randomDelay()), ctx.json({}));
     })
   ),
 ];

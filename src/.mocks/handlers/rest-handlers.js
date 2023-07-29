@@ -1,7 +1,7 @@
 import { rest } from 'msw';
 import { getUser } from './account';
 import { taskTypeDB } from '../data/rest';
-import { withErrorHandler } from '../util';
+import { withErrorHandler, randomDelay } from '../util';
 
 const tryToNumber = (value) =>
   Array.isArray(value) ? value.map(Number) : Number(value);
@@ -28,7 +28,7 @@ export const getRestHandlers = (endpoint, db) => {
           user.id,
           Object.fromEntries(params)
         );
-        return res(ctx.json(queryResult));
+        return res(ctx.delay(randomDelay()), ctx.json(queryResult));
       })
     ),
     // query detail
@@ -37,7 +37,7 @@ export const getRestHandlers = (endpoint, db) => {
       withErrorHandler(async (req, res, ctx) => {
         const { id } = req.params;
         const item = db.detail(+id);
-        return res(ctx.json(item));
+        return res(ctx.delay(randomDelay()), ctx.json(item));
       })
     ),
     // put item
@@ -47,7 +47,7 @@ export const getRestHandlers = (endpoint, db) => {
         const { id } = convertIds(req.params);
         const updates = await req.json();
         const updatedItem = db.update(id, updates);
-        return res(ctx.json(updatedItem));
+        return res(ctx.delay(randomDelay()), ctx.json(updatedItem));
       })
     ),
 
@@ -57,7 +57,7 @@ export const getRestHandlers = (endpoint, db) => {
       withErrorHandler(async (req, res, ctx) => {
         const { id } = convertIds(req.params);
         db.remove(id);
-        return res(ctx.json({ success: true }));
+        return res(ctx.delay(randomDelay()), ctx.json({ success: true }));
       })
     ),
 
@@ -90,7 +90,7 @@ export const getRestHandlers = (endpoint, db) => {
         // }
 
         const detail = await db.create(convertIds(targetAddItem));
-        return res(ctx.json(detail));
+        return res(ctx.delay(randomDelay()), ctx.json(detail));
       })
     ),
   ];

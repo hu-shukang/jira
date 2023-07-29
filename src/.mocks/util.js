@@ -43,9 +43,14 @@ export function withErrorHandler(handler) {
       console.error('An error occurred:', error);
       const status = error.status || 500;
       return res(
+        ctx.delay(randomDelay()),
         ctx.status(status),
         ctx.json({ status, message: error.message || 'Unknown Error' })
       );
     }
   };
+}
+
+export function randomDelay() {
+  return Math.random() * 2000 + 2000;
 }
